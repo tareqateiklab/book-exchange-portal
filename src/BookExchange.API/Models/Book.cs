@@ -19,7 +19,7 @@ namespace BookExchange.API.Models
         [StringLength(1000)]
         public string? Description { get; set; }
         public required Guid SellerId { get; set; }
-        public required virtual User Seller { get; set; }
+        public virtual User? Seller { get; set; }
         public DateTime DatePosted { get; set; } = DateTime.UtcNow;
         public int? CategoryId { get; set; }
         public virtual Category? Category { get; set; }
