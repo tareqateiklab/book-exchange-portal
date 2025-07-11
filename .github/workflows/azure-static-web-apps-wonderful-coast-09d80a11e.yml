@@ -26,6 +26,8 @@ jobs:
           action: "upload"
           app_location: "/src/BookExchange.Web"
           output_location: "dist/BookExchange.Web"
+          skip_app_build: false
+
         env:
           NODE_VERSION: "20"
   close_pull_request_job:
