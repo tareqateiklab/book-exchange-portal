@@ -416,3 +416,5 @@ FodyWeavers.xsd
 *.msix
 *.msm
 *.msp
+token
+src/BookExchange.API/appsettings.Development.json
