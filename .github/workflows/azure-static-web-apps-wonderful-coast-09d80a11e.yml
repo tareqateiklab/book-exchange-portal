@@ -25,7 +25,7 @@ jobs:
           repo_token: ${{ secrets.GITHUB_TOKEN }}
           action: "upload"
           app_location: "/src/BookExchange.Web"
-          output_location: "dist"
+          output_location: "dist/BookExchange.Web"
         env:
           NODE_VERSION: "20"
   close_pull_request_job:
