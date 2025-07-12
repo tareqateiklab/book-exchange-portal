@@ -1,9 +1,132 @@
-<h2>Available Books</h2>
-<div *ngIf="loading">Loading books...</div>
-<div *ngIf="error" class="error">Error: {{error}}</div>
-<div *ngFor="let book of books" class="book-item">
-  <h3>{{book.title}}</h3>
-  <p>Price: ${{book.price}}</p>
-  <p>Condition: {{book.condition}}</p>
-  <p>{{book.description}}</p>
+<div class="container">
+  <div class="header">
+    <h1>Available Books</h1>
+    <button mat-raised-button color="primary" routerLink="/add-book">
+      <mat-icon>add</mat-icon>
+      Add Book
+    </button>
+  </div>
+
+  <!-- Search Section -->
+  <div class="search-section">
+    <mat-card class="search-card">
+      <div class="search-form">
+        <!-- Search Input -->
+        <mat-form-field class="search-input">
+          <mat-label>Search books...</mat-label>
+          <input matInput 
+                 [(ngModel)]="searchTerm" 
+                 (keyup.enter)="onSearch()"
+                 placeholder="Title, author, or ISBN">
+          <mat-icon matSuffix>search</mat-icon>
+        </mat-form-field>
+
+        <!-- Category Filter -->
+        <mat-form-field class="category-select">
+          <mat-label>Category</mat-label>
+          <mat-select [(ngModel)]="selectedCategoryId" (selectionChange)="onSearch()">
+            <mat-option [value]="0">All Categories</mat-option>
+            <mat-option *ngFor="let category of categories" [value]="category.id">
+              {{ category.name }}
+            </mat-option>
+          </mat-select>
+        </mat-form-field>
+
+        <!-- Search Button -->
+        <button mat-raised-button color="primary" (click)="onSearch()" class="search-button">
+          <mat-icon>search</mat-icon>
+          Search
+        </button>
+
+        <!-- Clear Button -->
+        <button mat-stroked-button (click)="onClear()" *ngIf="searchTerm || selectedCategoryId > 0" class="clear-button">
+          <mat-icon>clear</mat-icon>
+          Clear
+        </button>
+      </div>
+    </mat-card>
+  </div>
+
+  <!-- Results Summary -->
+  <div *ngIf="searchTerm || selectedCategoryId > 0" class="results-summary">
+    <p><strong>{{ books.length }}</strong> book{{ books.length !== 1 ? 's' : '' }} found</p>
+  </div>
+
+  <!-- Loading Spinner -->
+  <div *ngIf="loading" class="loading-container">
+    <mat-spinner diameter="50"></mat-spinner>
+    <p>Loading books...</p>
+  </div>
+
+  <!-- Error Message -->
+  <mat-card *ngIf="error && !loading" class="error-card">
+    <mat-card-content>
+      <div class="error-content">
+        <mat-icon color="warn">error</mat-icon>
+        <div>
+          <h3>Error</h3>
+          <p>{{ error }}</p>
+        </div>
+      </div>
+    </mat-card-content>
+    <mat-card-actions>
+      <button mat-button color="primary" (click)="loadBooks()">
+        <mat-icon>refresh</mat-icon>
+        Retry
+      </button>
+    </mat-card-actions>
+  </mat-card>
+
+  <!-- Books Grid -->
+  <div *ngIf="!loading && !error && books.length > 0" class="books-grid">
+    <mat-card *ngFor="let book of books" class="book-card" (click)="viewBook(book.id)">
+      <mat-card-header>
+        <mat-card-title>{{ book.title }}</mat-card-title>
+        <mat-card-subtitle>by {{ getAuthorName(book) }}</mat-card-subtitle>
+      </mat-card-header>
+      
+      <mat-card-content>
+        <div class="book-details">
+          <p><strong>ISBN:</strong> {{ book.isbn }}</p>
+          <p><strong>Category:</strong> {{ book.category?.name || 'Uncategorized' }}</p>
+          <p><strong>Condition:</strong> {{ book.condition }}</p>
+          <p class="price"><strong>Price:</strong> {{ formatPrice(book.price) }}</p>
+          <p><strong>Seller:</strong> {{ book.seller?.name || 'Unknown' }}</p>
+        </div>
+      </mat-card-content>
+      
+      <mat-card-actions>
+        <button mat-button color="primary" (click)="viewBook(book.id); $event.stopPropagation()">
+          <mat-icon>visibility</mat-icon>
+          View Details
+        </button>
+      </mat-card-actions>
+    </mat-card>
+  </div>
+
+  <!-- Empty State -->
+  <mat-card *ngIf="!loading && !error && books.length === 0" class="empty-state">
+    <mat-card-content>
+      <div class="empty-content">
+        <mat-icon class="empty-icon">library_books</mat-icon>
+        <h3>No books found</h3>
+        <p *ngIf="searchTerm || selectedCategoryId > 0">
+          Try adjusting your search criteria or clearing the filters.
+        </p>
+        <p *ngIf="!searchTerm && selectedCategoryId === 0">
+          No books are available yet. Be the first to add one!
+        </p>
+      </div>
+    </mat-card-content>
+    <mat-card-actions>
+      <button mat-raised-button color="primary" routerLink="/add-book">
+        <mat-icon>add</mat-icon>
+        Add First Book
+      </button>
+      <button mat-button (click)="onClear()" *ngIf="searchTerm || selectedCategoryId > 0">
+        <mat-icon>clear</mat-icon>
+        Clear Filters
+      </button>
+    </mat-card-actions>
+  </mat-card>
 </div>

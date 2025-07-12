@@ -1,4 +1,5 @@
-.add-book-container {
+/* Reuse the same styles as add-book.css */
+.edit-book-container {
   padding: 20px;
   max-width: 800px;
   margin: 0 auto;
@@ -51,38 +52,9 @@
   margin-top: 20px;
 }
 
-/* Form field customization */
-.mat-mdc-form-field {
-  margin-bottom: 8px;
-}
-
-.mat-mdc-form-field-error {
-  font-size: 12px;
-}
-
-/* Snackbar styles */
-::ng-deep .success-snackbar {
-  background-color: #4caf50 !important;
-  color: white !important;
-}
-
-::ng-deep .error-snackbar {
-  background-color: #f44336 !important;
-  color: white !important;
-}
-
-/* Button styles */
-.mat-mdc-raised-button {
-  min-width: 120px;
-}
-
-.mat-spinner {
-  display: inline-block;
-}
-
 /* Responsive Design */
 @media (max-width: 600px) {
-  .add-book-container {
+  .edit-book-container {
     padding: 16px;
   }
   
@@ -106,10 +78,4 @@
   .form-actions button {
     width: 100%;
   }
-}
-
-/* Textarea specific styling */
-textarea.mat-mdc-input-element {
-  resize: vertical;
-  min-height: 100px;
 }

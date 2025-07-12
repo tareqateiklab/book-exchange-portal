@@ -1,5 +1,5 @@
 import { Injectable } from '@angular/core';
-import { HttpClient } from '@angular/common/http';
+import { HttpClient, HttpParams } from '@angular/common/http';
 import { Observable } from 'rxjs';
 import { environment } from '../../environments/environment';
 
@@ -77,4 +77,18 @@ export class BookService {
   getUsers(): Observable<User[]> {
     return this.http.get<User[]>(`${this.apiUrl}/users`);
   }
+  searchBooks(searchTerm: string, categoryId?: number): Observable<Book[]> {
+    let params = new HttpParams();
+    
+    if (searchTerm && searchTerm.trim()) {
+      params = params.set('search', searchTerm.trim());
+    }
+    
+    if (categoryId && categoryId > 0) {
+      params = params.set('categoryId', categoryId.toString());
+    }
+
+    return this.http.get<Book[]>(`${this.apiUrl}/books/search`, { params });
+}
+
 }

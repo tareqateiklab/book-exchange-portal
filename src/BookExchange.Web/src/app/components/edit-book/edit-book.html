@@ -1,15 +1,15 @@
-<div class="add-book-container">
+<div class="edit-book-container">
   <mat-card class="form-card">
     <mat-card-header>
-      <mat-card-title>Add New Book</mat-card-title>
-      <mat-card-subtitle>List your book for sale or exchange</mat-card-subtitle>
+      <mat-card-title>Edit Book</mat-card-title>
+      <mat-card-subtitle>Update book information</mat-card-subtitle>
     </mat-card-header>
 
     <mat-card-content>
       <!-- Loading State -->
       <div *ngIf="loading" class="loading-container">
         <mat-spinner diameter="40"></mat-spinner>
-        <p>Loading form data...</p>
+        <p>Loading book data...</p>
       </div>
 
       <!-- Form -->
@@ -37,7 +37,7 @@
         <mat-form-field appearance="outline" class="full-width">
           <mat-label>Description</mat-label>
           <textarea matInput formControlName="description" 
-                    placeholder="Describe the book (optional)" 
+                    placeholder="Describe the book" 
                     rows="4"></textarea>
         </mat-form-field>
 
@@ -67,7 +67,7 @@
 
         <!-- ISBN -->
         <mat-form-field appearance="outline" class="full-width">
-          <mat-label>ISBN (Optional)</mat-label>
+          <mat-label>ISBN</mat-label>
           <input matInput formControlName="isbn" placeholder="Enter ISBN if available">
         </mat-form-field>
 
@@ -109,7 +109,7 @@
               (click)="onSubmit()" 
               [disabled]="!bookForm.valid || submitting">
         <mat-spinner *ngIf="submitting" diameter="20" style="margin-right: 8px;"></mat-spinner>
-        {{ submitting ? 'Adding...' : 'Add Book' }}
+        {{ submitting ? 'Updating...' : 'Update Book' }}
       </button>
     </mat-card-actions>
   </mat-card>

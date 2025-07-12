@@ -1,7 +1,7 @@
 import { Component, OnInit } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { ReactiveFormsModule, FormBuilder, FormGroup, Validators } from '@angular/forms';
-import { Router } from '@angular/router';
+import { ActivatedRoute, Router } from '@angular/router';
 import { MatCardModule } from '@angular/material/card';
 import { MatFormFieldModule } from '@angular/material/form-field';
 import { MatInputModule } from '@angular/material/input';
@@ -12,7 +12,7 @@ import { MatProgressSpinnerModule } from '@angular/material/progress-spinner';
 import { BookService } from '../../services/book';
 
 @Component({
-  selector: 'app-add-book',
+  selector: 'app-edit-book',
   standalone: true,
   imports: [
     CommonModule,
@@ -25,15 +25,17 @@ import { BookService } from '../../services/book';
     MatSnackBarModule,
     MatProgressSpinnerModule
   ],
-  templateUrl: './add-book.html',
-  styleUrls: ['./add-book.css']
+  templateUrl: './edit-book.html',
+  styleUrls: ['./edit-book.css']
 })
-export class AddBook implements OnInit {
+export class EditBook implements OnInit {
   bookForm: FormGroup;
   categories: any[] = [];
   users: any[] = [];
   loading = false;
   submitting = false;
+  bookId: string = '';
+  book: any = null;
 
   conditionOptions = [
     { value: 'New', label: 'New' },
@@ -45,6 +47,7 @@ export class AddBook implements OnInit {
 
   constructor(
     private fb: FormBuilder,
+    private route: ActivatedRoute,
     private bookService: BookService,
     private router: Router,
     private snackBar: MatSnackBar
@@ -57,29 +60,51 @@ export class AddBook implements OnInit {
       isbn: [''],
       categoryId: ['', Validators.required],
       userId: ['', Validators.required],
-      authorName: ['', Validators.required] // Simplified - single author for now
+      authorName: ['', Validators.required]
     });
   }
 
   ngOnInit(): void {
-    this.loadFormData();
+    this.route.params.subscribe(params => {
+      this.bookId = params['id'];
+      if (this.bookId) {
+        this.loadBookAndFormData();
+      }
+    });
   }
 
-  loadFormData(): void {
+  loadBookAndFormData(): void {
     this.loading = true;
     
-    // Load categories and users
     Promise.all([
+      this.bookService.getBook(this.bookId).toPromise(),
       this.bookService.getCategories().toPromise(),
       this.bookService.getUsers().toPromise()
-    ]).then(([categories, users]) => {
+    ]).then(([book, categories, users]) => {
+      this.book = book;
       this.categories = categories || [];
       this.users = users || [];
+      
+      // Populate form with existing book data
+      if (book) {
+        this.bookForm.patchValue({
+          title: book.title,
+          description: book.description || '',
+          price: book.price,
+          condition: book.condition,
+          isbn: book.isbn || '',
+          categoryId: book.categoryId,
+          userId: book.sellerId || '',
+          authorName: book.authors && book.authors.length > 0 ? book.authors[0].name : ''
+        });
+      }
+      
       this.loading = false;
     }).catch(error => {
-      console.error('Error loading form data:', error);
-      this.snackBar.open('Error loading form data', 'Close', { duration: 3000 });
+      console.error('Error loading data:', error);
+      this.snackBar.open('Error loading book data', 'Close', { duration: 3000 });
       this.loading = false;
+      this.router.navigate(['/books']);
     });
   }
 
@@ -88,12 +113,13 @@ export class AddBook implements OnInit {
       this.submitting = true;
       const formValue = this.bookForm.value;
 
-      // Create book object with proper structure for API
+      // Split author name into firstName and lastName
       const authorParts = formValue.authorName.trim().split(' ');
       const firstName = authorParts[0] || '';
       const lastName = authorParts.slice(1).join(' ') || '';
 
       const bookData = {
+        id: this.bookId, // Include the book ID for PUT request
         title: formValue.title,
         description: formValue.description || '',
         price: parseFloat(formValue.price),
@@ -103,38 +129,29 @@ export class AddBook implements OnInit {
         sellerId: formValue.userId,
         authors: [
           {
+            id: this.book?.authors && this.book.authors.length > 0 ? this.book.authors[0].id : '',
             firstName: firstName,
             lastName: lastName,
-            bio: ''
+            bio: this.book?.authors && this.book.authors.length > 0 ? this.book.authors[0].bio : ''
           }
         ]
       };
 
-      console.log('Submitting book data:', bookData);
-
-      this.bookService.createBook(bookData as any).subscribe({
+      this.bookService.updateBook(this.bookId, bookData as any).subscribe({
         next: (response) => {
-          console.log('Book created successfully:', response);
-          this.snackBar.open('Book added successfully!', 'Close', { 
-            duration: 3000,
-            panelClass: ['success-snackbar']
-          });
-          this.router.navigate(['/books']);
+          console.log('Book updated successfully:', response);
+          this.snackBar.open('Book updated successfully!', 'Close', { duration: 3000 });
+          this.router.navigate(['/books', this.bookId]);
         },
         error: (error) => {
-          console.error('Error creating book:', error);
-          this.snackBar.open('Error adding book. Please try again.', 'Close', { 
-            duration: 5000,
-            panelClass: ['error-snackbar']
-          });
+          console.error('Error updating book:', error);
+          this.snackBar.open('Error updating book. Please try again.', 'Close', { duration: 5000 });
           this.submitting = false;
         }
       });
     } else {
       this.markFormGroupTouched();
-      this.snackBar.open('Please fill in all required fields correctly', 'Close', { 
-        duration: 3000 
-      });
+      this.snackBar.open('Please fill in all required fields correctly', 'Close', { duration: 3000 });
     }
   }
 
@@ -160,6 +177,6 @@ export class AddBook implements OnInit {
   }
 
   onCancel(): void {
-    this.router.navigate(['/books']);
+    this.router.navigate(['/books', this.bookId]);
   }
 }

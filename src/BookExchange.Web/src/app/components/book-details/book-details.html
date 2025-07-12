@@ -1,1 +1,163 @@
-<p>book-details works!</p>
+<div class="book-details-container">
+  
+  <!-- Navigation Header -->
+  <div class="header-nav">
+    <button mat-icon-button (click)="goBack()" class="back-button">
+      <mat-icon>arrow_back</mat-icon>
+    </button>
+    <h1>Book Details</h1>
+  </div>
+
+  <!-- Loading State -->
+  <div *ngIf="loading" class="loading-container">
+    <mat-spinner diameter="50"></mat-spinner>
+    <p>Loading book details...</p>
+  </div>
+
+  <!-- Error State -->
+  <div *ngIf="error && !loading" class="error-container">
+    <mat-icon class="error-icon">error_outline</mat-icon>
+    <h2>{{ error }}</h2>
+    <p>The book you're looking for might have been removed or doesn't exist.</p>
+    <div class="error-actions">
+      <button mat-button (click)="loadBookDetails()">Try Again</button>
+      <button mat-raised-button color="primary" (click)="goBack()">
+        Back to Books
+      </button>
+    </div>
+  </div>
+
+  <!-- Book Details -->
+  <div *ngIf="book && !loading && !error" class="book-content">
+    
+    <!-- Main Book Card -->
+    <mat-card class="main-card">
+      <mat-card-header>
+        <mat-card-title>{{ book.title }}</mat-card-title>
+        <mat-card-subtitle>
+          by {{ getAuthorsString(book.authors) }}
+        </mat-card-subtitle>
+      </mat-card-header>
+
+      <mat-card-content>
+        
+        <!-- Book Details Grid -->
+        <div class="details-grid">
+          
+          <!-- Left Column - Main Info -->
+          <div class="main-info">
+            
+            <!-- Description -->
+            <div class="info-section">
+              <h3>Description</h3>
+              <p class="description" *ngIf="book.description">
+                {{ book.description }}
+              </p>
+              <p class="description no-description" *ngIf="!book.description">
+                No description provided for this book.
+              </p>
+            </div>
+
+            <!-- Book Details -->
+            <div class="info-section">
+              <h3>Book Information</h3>
+              <div class="detail-row">
+                <span class="label">ISBN:</span>
+                <span class="value">{{ book.isbn || 'Not provided' }}</span>
+              </div>
+              <div class="detail-row">
+                <span class="label">Condition:</span>
+                <span class="value">
+                  <mat-chip class="condition-chip">{{ book.condition }}</mat-chip>
+                </span>
+              </div>
+              <div class="detail-row">
+                <span class="label">Category:</span>
+                <span class="value">
+                  <mat-chip *ngIf="book.category" color="primary">
+                    {{ book.category.name }}
+                  </mat-chip>
+                  <span *ngIf="!book.category">Not categorized</span>
+                </span>
+              </div>
+              <div class="detail-row">
+                <span class="label">Listed on:</span>
+                <span class="value">{{ formatDate(book.createdAt) }}</span>
+              </div>
+            </div>
+
+          </div>
+
+          <!-- Right Column - Sidebar -->
+          <div class="sidebar">
+            
+            <!-- Price Section -->
+            <mat-card class="price-card">
+              <mat-card-content>
+                <div class="price-section">
+                  <span class="price-label">Price</span>
+                  <span class="price-amount">{{ formatPrice(book.price) }}</span>
+                </div>
+                
+                <mat-divider></mat-divider>
+                
+                <div class="action-buttons">
+                  <button mat-raised-button color="primary" 
+                          class="contact-button"
+                          (click)="contactSeller()">
+                    <mat-icon>email</mat-icon>
+                    Contact Seller
+                  </button>
+                </div>
+              </mat-card-content>
+            </mat-card>
+
+            <!-- Seller Information -->
+            <mat-card class="seller-card" *ngIf="book.user">
+              <mat-card-header>
+                <mat-card-title>Seller Information</mat-card-title>
+              </mat-card-header>
+              <mat-card-content>
+                <div class="seller-info">
+                  <div class="seller-detail">
+                    <mat-icon>person</mat-icon>
+                    <span>{{ book.user.firstName }} {{ book.user.lastName }}</span>
+                  </div>
+                  <div class="seller-detail" *ngIf="book.user.email">
+                    <mat-icon>email</mat-icon>
+                    <span>{{ book.user.email }}</span>
+                  </div>
+                  <div class="seller-detail" *ngIf="book.user.phone">
+                    <mat-icon>phone</mat-icon>
+                    <span>{{ book.user.phone }}</span>
+                  </div>
+                </div>
+              </mat-card-content>
+            </mat-card>
+
+          </div>
+        </div>
+
+      </mat-card-content>
+
+      <!-- Action Buttons -->
+      <mat-card-actions class="main-actions">
+        <button mat-button (click)="goBack()">
+          <mat-icon>arrow_back</mat-icon>
+          Back to List
+        </button>
+        <div class="action-spacer"></div>
+        <button mat-button color="accent" (click)="editBook()">
+          <mat-icon>edit</mat-icon>
+          Edit
+        </button>
+        <button mat-button color="warn" (click)="deleteBook()">
+          <mat-icon>delete</mat-icon>
+          Delete
+        </button>
+      </mat-card-actions>
+
+    </mat-card>
+
+  </div>
+</div>
