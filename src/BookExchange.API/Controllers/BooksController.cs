@@ -88,7 +88,38 @@ namespace BookExchange.API.Controllers
 
             return NoContent();
         }
+        [HttpGet("search")]
+        public async Task<ActionResult<IEnumerable<Book>>> SearchBooks(
+            [FromQuery] string? search = null,
+            [FromQuery] int? categoryId = null)
+        {
+            var query = _context.Books
+                .Include(b => b.Authors)
+                .Include(b => b.Category)
+                .Include(b => b.Seller)
+                .AsQueryable();
 
+            // Search by title, ISBN, or author name
+            if (!string.IsNullOrEmpty(search))
+            {
+                var searchLower = search.ToLower();
+                query = query.Where(b =>
+                    b.Title.ToLower().Contains(searchLower) ||
+                    b.ISBN.ToLower().Contains(searchLower) ||
+                    b.Authors.Any(a =>
+                        a.FirstName.ToLower().Contains(searchLower) ||
+                        a.LastName.ToLower().Contains(searchLower)));
+            }
+
+            // Filter by category
+            if (categoryId.HasValue && categoryId > 0)
+            {
+                query = query.Where(b => b.CategoryId == categoryId);
+            }
+
+            var books = await query.OrderBy(b => b.Title).ToListAsync();
+            return Ok(books);
+        }
         private bool BookExists(Guid id)
         {
             return _context.Books.Any(e => e.Id == id);
