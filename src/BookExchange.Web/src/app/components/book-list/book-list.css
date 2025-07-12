@@ -1,0 +1,11 @@
+.book-item {
+  border: 1px solid #ccc;
+  padding: 16px;
+  margin: 8px 0;
+  border-radius: 4px;
+}
+
+.error {
+  color: red;
+  padding: 16px;
+}

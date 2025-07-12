@@ -1,1 +1,9 @@
-<p>book-list works!</p>
+<h2>Available Books</h2>
+<div *ngIf="loading">Loading books...</div>
+<div *ngIf="error" class="error">Error: {{error}}</div>
+<div *ngFor="let book of books" class="book-item">
+  <h3>{{book.title}}</h3>
+  <p>Price: ${{book.price}}</p>
+  <p>Condition: {{book.condition}}</p>
+  <p>{{book.description}}</p>
+</div>
