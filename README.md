@@ -51,6 +51,26 @@ A peer-to-peer marketplace for college students to buy, sell, and exchange textb
 - Categories → Books (One-to-Many)
 - Users → Books (One-to-Many, as Sellers)
 
+## 🎨 User Experience Design
+
+The application interface was designed with user-centered principles, focusing on the needs of college students buying and selling textbooks.
+
+### Design Process
+- **User Research:** Identified target users (college students) and their pain points with expensive textbooks
+- **User Journey Mapping:** Complete workflow from browsing to purchasing and selling
+- **Wireframe Development:** Professional mockups created in Figma
+- **Design System:** Angular Material for consistent, accessible UI components
+- **Responsive Design:** Mobile-first approach ensuring usability across all device types
+
+### Key UX Features
+- **Intuitive Navigation:** Clear, consistent header navigation across all pages
+- **Efficient Search:** Quick book discovery with title, author, and category filtering
+- **Streamlined Listing:** Simple, form-based book submission process
+- **Clear Information Hierarchy:** Easy-to-scan book cards with essential details
+- **Direct Communication:** One-click seller contact functionality
+
+**View Complete Design Documentation:** [docs/UXDesign.pdf](docs/UXDesign.pdf)
+
 ## 📈 Features
 
 The Book Exchange Portal provides a complete solution for textbook trading:
@@ -69,7 +89,14 @@ book-exchange-portal/
 ├── .github/workflows/          # Automated deployment pipelines
 ├── src/
 │   ├── BookExchange.API/       # ASP.NET Core Web API backend
+│   │   ├── Controllers/        # API Controllers
+│   │   ├── Models/            # Data Models
+│   │   └── Data/              # DbContext & Migrations
 │   └── BookExchange.Web/       # Angular frontend application
+│       ├── src/app/
+│       │   ├── components/     # Angular Components
+│       │   ├── services/       # HTTP Services
+│       │   └── utils/         # Utilities & Validators
 ├── docs/                       # Project documentation
 └── database/                   # Database schema and scripts
 ```
@@ -103,30 +130,12 @@ ng serve
 - Update `src/BookExchange.Web/src/environments/environment.ts` for local API URL
 - Configure connection string in `src/BookExchange.API/appsettings.Development.json`
 
-## 📁 Project Structure
-
-```
-book-exchange-portal/
-├── .github/workflows/          # GitHub Actions CI/CD
-├── src/
-│   ├── BookExchange.API/       # ASP.NET Core Web API
-│   │   ├── Controllers/        # API Controllers
-│   │   ├── Models/            # Data Models
-│   │   └── Data/              # DbContext & Migrations
-│   └── BookExchange.Web/       # Angular Frontend
-│       ├── src/app/
-│       │   ├── components/     # Angular Components
-│       │   ├── services/       # HTTP Services
-│       │   └── utils/         # Utilities & Validators
-│       └── docs/              # Project Documentation
-├── database/                   # SQL Scripts & Schema
-└── docs/                      # Additional Documentation
-```
-
 ## 📋 Documentation
 
 - **User Requirements:** [docs/UserRequirements.md](docs/UserRequirements.md)
 - **Database Schema:** [docs/DatabaseSchema.md](docs/DatabaseSchema.md)
+- **Deployment Guide:** [docs/Deployment.md](docs/Deployment.md)
+- **UX Design & Wireframes:** [docs/UXDesign.pdf](docs/UXDesign.pdf)
 - **API Documentation:** Available via Swagger UI at `/swagger`
 
 ## 🔗 Key URLs & Resources
@@ -157,6 +166,7 @@ This project was developed progressively throughout the course, building from ba
 
 ### Final Module: Deployment & Documentation
 - Azure cloud deployment with CI/CD
+- User experience design and wireframe creation
 - Comprehensive testing and bug fixes
 - Documentation completion and final submission
 
@@ -172,6 +182,12 @@ This project was developed progressively throughout the course, building from ba
 - Complete CRUD operations
 - Proper relationships and constraints
 
+### ✅ User Experience Design
+- Professional wireframes and user journey documentation
+- Figma-based design mockups
+- Responsive, mobile-friendly interface
+- Material Design component library
+
 ### ✅ Live Deployment
 - Publicly accessible URLs
 - Automated CI/CD pipeline
@@ -180,7 +196,7 @@ This project was developed progressively throughout the course, building from ba
 ### ✅ Source Control
 - GitHub repository with commit history
 - Proper project structure
-- Documentation included
+- Comprehensive documentation
 
 ## 👨‍💻 Developer
 
