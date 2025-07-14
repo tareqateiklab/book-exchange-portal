@@ -71,6 +71,15 @@
           <input matInput formControlName="isbn" placeholder="Enter ISBN if available">
         </mat-form-field>
 
+        <!-- Image Upload -->
+        <div class="full-width" style="margin-bottom: 1em;">
+          <label for="book-image" style="font-weight: 500; display: block; margin-bottom: 0.5em;">Book Cover Image</label>
+          <input id="book-image" type="file" accept="image/*" (change)="onImageSelected($event)" />
+          <div *ngIf="imagePreview" class="image-preview">
+            <img [src]="imagePreview" alt="Book Cover Preview" style="max-width: 200px; max-height: 200px; margin-top: 10px; border-radius: 8px;" />
+          </div>
+        </div>
+
         <!-- Category and User Row -->
         <div class="form-row">
           <mat-form-field appearance="outline" class="half-width">

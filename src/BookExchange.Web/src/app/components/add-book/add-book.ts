@@ -34,6 +34,8 @@ export class AddBook implements OnInit {
   users: any[] = [];
   loading = false;
   submitting = false;
+  imageFile: File | null = null;
+  imagePreview: string | ArrayBuffer | null = null;
 
   conditionOptions = [
     { value: 'New', label: 'New' },
@@ -83,58 +85,53 @@ export class AddBook implements OnInit {
     });
   }
 
+  onImageSelected(event: Event): void {
+    const input = event.target as HTMLInputElement;
+    if (input.files && input.files[0]) {
+      this.imageFile = input.files[0];
+      const reader = new FileReader();
+      reader.onload = e => this.imagePreview = reader.result;
+      reader.readAsDataURL(this.imageFile);
+    }
+  }
+
   onSubmit(): void {
     if (this.bookForm.valid) {
       this.submitting = true;
       const formValue = this.bookForm.value;
 
-      // Create book object with proper structure for API
+      // Create FormData for multipart/form-data
+      const formData = new FormData();
+      formData.append('title', formValue.title);
+      formData.append('description', formValue.description || '');
+      formData.append('price', formValue.price);
+      formData.append('condition', formValue.condition);
+      formData.append('isbn', formValue.isbn || '');
+      formData.append('categoryId', formValue.categoryId);
+      formData.append('sellerId', formValue.userId);
+      if (this.imageFile) {
+        formData.append('image', this.imageFile);
+      }
+      // Author (as JSON string)
       const authorParts = formValue.authorName.trim().split(' ');
       const firstName = authorParts[0] || '';
       const lastName = authorParts.slice(1).join(' ') || '';
+      const authors = [{ firstName, lastName }];
+      formData.append('authors', JSON.stringify(authors));
 
-      const bookData = {
-        title: formValue.title,
-        description: formValue.description || '',
-        price: parseFloat(formValue.price),
-        condition: formValue.condition,
-        isbn: formValue.isbn || '',
-        categoryId: parseInt(formValue.categoryId),
-        sellerId: formValue.userId,
-        authors: [
-          {
-            firstName: firstName,
-            lastName: lastName,
-            bio: ''
-          }
-        ]
-      };
-
-      console.log('Submitting book data:', bookData);
-
-      this.bookService.createBook(bookData as any).subscribe({
+      this.bookService.createBookWithImage(formData).subscribe({
         next: (response) => {
-          console.log('Book created successfully:', response);
-          this.snackBar.open('Book added successfully!', 'Close', { 
-            duration: 3000,
-            panelClass: ['success-snackbar']
-          });
+          this.snackBar.open('Book added successfully!', 'Close', { duration: 3000, panelClass: ['success-snackbar'] });
           this.router.navigate(['/books']);
         },
         error: (error) => {
-          console.error('Error creating book:', error);
-          this.snackBar.open('Error adding book. Please try again.', 'Close', { 
-            duration: 5000,
-            panelClass: ['error-snackbar']
-          });
+          this.snackBar.open('Error adding book. Please try again.', 'Close', { duration: 5000, panelClass: ['error-snackbar'] });
           this.submitting = false;
         }
       });
     } else {
       this.markFormGroupTouched();
-      this.snackBar.open('Please fill in all required fields correctly', 'Close', { 
-        duration: 3000 
-      });
+      this.snackBar.open('Please fill in all required fields correctly', 'Close', { duration: 3000 });
     }
   }
 

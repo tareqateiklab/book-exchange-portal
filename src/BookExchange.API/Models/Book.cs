@@ -18,6 +18,7 @@ namespace BookExchange.API.Models
         public decimal Price { get; set; }
         [StringLength(1000)]
         public string? Description { get; set; }
+        public string? ImageFileName { get; set; } // New: stores the uploaded image file name or URL
         public required Guid SellerId { get; set; }
         public virtual User? Seller { get; set; }
         public DateTime DatePosted { get; set; } = DateTime.UtcNow;

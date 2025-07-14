@@ -42,9 +42,20 @@ if (app.Environment.IsDevelopment())
 {
 }
 
-app.UseHttpsRedirection();
+if (!app.Environment.IsDevelopment())
+{
+    app.UseHttpsRedirection();
+}
 app.UseCors("AllowAngular");
 app.UseAuthorization();
+app.UseStaticFiles(); // Enable serving static files from wwwroot
 app.MapControllers();
+
+using (var scope = app.Services.CreateScope())
+{
+    var db = scope.ServiceProvider.GetRequiredService<ApplicationDbContext>();
+    db.Database.EnsureCreated();
+    db.Seed();
+}
 
 app.Run();

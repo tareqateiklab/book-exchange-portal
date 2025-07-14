@@ -13,6 +13,7 @@ export interface Book {
   sellerId: string;
   categoryId: number;
   createdAt: Date;
+  imageFileName?: string; // Add this line
   // Navigation properties
   seller?: User;
   category?: Category;
@@ -66,6 +67,10 @@ export class BookService {
 
   deleteBook(id: string): Observable<void> {
     return this.http.delete<void>(`${this.apiUrl}/books/${id}`);
+  }
+
+  createBookWithImage(formData: FormData): Observable<Book> {
+    return this.http.post<Book>(`${this.apiUrl}/books`, formData);
   }
 
   // Category operations

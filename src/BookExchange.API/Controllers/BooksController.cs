@@ -1,9 +1,29 @@
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
 using BookExchange.API.Models;
+using Microsoft.AspNetCore.Http;
 
 namespace BookExchange.API.Controllers
 {
+    // DTO for book upload with image
+    public class BookUploadDto
+    {
+        public string Title { get; set; } = string.Empty;
+        public string? Description { get; set; }
+        public decimal Price { get; set; }
+        public string Condition { get; set; } = string.Empty;
+        public string? ISBN { get; set; }
+        public int? CategoryId { get; set; }
+        public Guid SellerId { get; set; }
+        public List<AuthorDto>? Authors { get; set; }
+        public IFormFile? Image { get; set; }
+    }
+    public class AuthorDto
+    {
+        public string FirstName { get; set; } = string.Empty;
+        public string LastName { get; set; } = string.Empty;
+    }
+
     [ApiController]
     [Route("api/[controller]")]
     public class BooksController : ControllerBase
@@ -42,10 +62,37 @@ namespace BookExchange.API.Controllers
             return book;
         }
 
-        // POST: api/books
+        // POST: api/books (with image upload)
         [HttpPost]
-        public async Task<ActionResult<Book>> PostBook(Book book)
+        [RequestSizeLimit(10_000_000)] // 10 MB limit
+        public async Task<IActionResult> PostBookWithImage([FromForm] BookUploadDto dto)
         {
+            string? imageFileName = null;
+            if (dto.Image != null && dto.Image.Length > 0)
+            {
+                var uploadsFolder = Path.Combine(Directory.GetCurrentDirectory(), "wwwroot", "images");
+                if (!Directory.Exists(uploadsFolder))
+                    Directory.CreateDirectory(uploadsFolder);
+                imageFileName = Guid.NewGuid() + Path.GetExtension(dto.Image.FileName);
+                var filePath = Path.Combine(uploadsFolder, imageFileName);
+                using (var stream = new FileStream(filePath, FileMode.Create))
+                {
+                    await dto.Image.CopyToAsync(stream);
+                }
+            }
+
+            var book = new Book
+            {
+                Title = dto.Title,
+                Description = dto.Description,
+                Price = dto.Price,
+                ISBN = dto.ISBN,
+                CategoryId = dto.CategoryId,
+                SellerId = dto.SellerId,
+                ImageFileName = imageFileName,
+                Authors = dto.Authors?.Select(a => new Author { FirstName = a.FirstName, LastName = a.LastName }).ToList() ?? new List<Author>()
+            };
+
             _context.Books.Add(book);
             await _context.SaveChangesAsync();
 
