@@ -46,6 +46,33 @@ The Book Exchange Portal is a peer-to-peer marketplace that enables students to 
 - **Pain Points:** Hard-to-find technical books, expensive specialized materials
 - **Technology:** Power user, prefers web applications
 
+## User Stories
+
+### Epic 1: Book Discovery & Search
+- **US001:** As a college student, I want to search for textbooks by title so that I can quickly find books I need for my courses
+- **US002:** As a student, I want to search for books by author name so that I can find books by specific authors I'm studying
+- **US003:** As a buyer, I want to filter books by academic category so that I can browse books relevant to my major
+- **US004:** As a student, I want to search books by ISBN so that I can find the exact edition required for my course
+- **US005:** As a user, I want to sort books by price so that I can find the most affordable options first
+- **US006:** As a student, I want to see all available books in a grid layout so that I can quickly browse what's available
+
+### Epic 2: Book Information & Details
+- **US007:** As a buyer, I want to view detailed book information including condition and price so that I can make informed purchasing decisions
+- **US008:** As a student, I want to see the book's condition clearly described so that I know what quality to expect
+- **US009:** As a buyer, I want to see seller contact information so that I can arrange to purchase the book
+- **US010:** As a user, I want to see which course the book is used for so that I can verify it matches my class requirements
+- **US011:** As a student, I want to view book details on a dedicated page so that I can see all information clearly
+
+### Epic 3: Book Listing Management
+- **US012:** As a student seller, I want to create a book listing with title, author, price, and condition so that other students can find my book
+- **US013:** As a seller, I want to add a detailed description of my book so that buyers know exactly what they're getting
+- **US014:** As a seller, I want to specify the book condition from predefined options so that buyers have consistent condition information
+- **US015:** As a seller, I want to set my asking price so that I can get fair value for my textbook
+- **US016:** As a seller, I want to edit my book listings so that I can update price or availability when needed
+- **US017:** As a seller, I want to delete my listings so that I can remove books that are no longer available
+
+
+
 ## Functional Requirements
 
 ### Core Features (MVP)
@@ -185,6 +212,6 @@ The Book Exchange Portal is a peer-to-peer marketplace that enables students to 
 
 ---
 
-**Document Version:** 1.0  
-**Last Updated:** Day 6 of Development  
-**Status:** Initial Requirements Complete
+**Document Version:** 1.1  
+**Last Updated:** Day 7 of Development  
+**Status:** User Stories Added - Requirements Complete
