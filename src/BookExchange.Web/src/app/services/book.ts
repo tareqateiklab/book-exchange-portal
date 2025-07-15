@@ -50,37 +50,37 @@ export class BookService {
 
   // Book operations
   getBooks(): Observable<Book[]> {
-    return this.http.get<Book[]>(`${this.apiUrl}/books`);
+    return this.http.get<Book[]>(`${this.apiUrl}/api/books`);
   }
 
   getBook(id: string): Observable<Book> {
-    return this.http.get<Book>(`${this.apiUrl}/books/${id}`);
+    return this.http.get<Book>(`${this.apiUrl}/api/books/${id}`);
   }
 
   createBook(book: Partial<Book>): Observable<Book> {
-    return this.http.post<Book>(`${this.apiUrl}/books`, book);
+    return this.http.post<Book>(`${this.apiUrl}/api/books`, book);
   }
 
   updateBook(id: string, book: Partial<Book>): Observable<Book> {
-    return this.http.put<Book>(`${this.apiUrl}/books/${id}`, book);
+    return this.http.put<Book>(`${this.apiUrl}/api/books/${id}`, book);
   }
 
   deleteBook(id: string): Observable<void> {
-    return this.http.delete<void>(`${this.apiUrl}/books/${id}`);
+    return this.http.delete<void>(`${this.apiUrl}/api/books/${id}`);
   }
 
   createBookWithImage(formData: FormData): Observable<Book> {
-    return this.http.post<Book>(`${this.apiUrl}/books`, formData);
+    return this.http.post<Book>(`${this.apiUrl}/api/books`, formData);
   }
 
   // Category operations
   getCategories(): Observable<Category[]> {
-    return this.http.get<Category[]>(`${this.apiUrl}/categories`);
+    return this.http.get<Category[]>(`${this.apiUrl}/api/categories`);
   }
 
   // User operations
   getUsers(): Observable<User[]> {
-    return this.http.get<User[]>(`${this.apiUrl}/users`);
+    return this.http.get<User[]>(`${this.apiUrl}/api/users`);
   }
   searchBooks(searchTerm: string, categoryId?: number): Observable<Book[]> {
     let params = new HttpParams();
@@ -93,7 +93,7 @@ export class BookService {
       params = params.set('categoryId', categoryId.toString());
     }
 
-    return this.http.get<Book[]>(`${this.apiUrl}/books/search`, { params });
+    return this.http.get<Book[]>(`${this.apiUrl}/api/books/search`, { params });
 }
 
 }
