@@ -102,10 +102,10 @@ editBook(): void {
   }
 
   contactSeller(): void {
-    if (this.book?.user?.email) {
+    if (this.book?.seller?.email) {
       // In a real app, this might open a contact form or messaging system
       this.snackBar.open(
-        `Contact ${this.book.user.firstName} at ${this.book.user.email}`, 
+        `Contact ${this.book.seller.firstName} ${this.book.seller.lastName} at ${this.book.seller.email}`, 
         'Close', 
         { duration: 5000 }
       );
