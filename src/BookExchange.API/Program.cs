@@ -14,8 +14,9 @@ builder.Services.AddCors(options =>
     {
         builder
             .WithOrigins(
-                "http://localhost:4200",  // Keep for local development
-                "https://wonderful-coast-09d80a11e.1.azurestaticapps.net"  // Add your live frontend
+                "http://localhost:4200",  
+                "https://localhost:4200",  
+                "https://wonderful-coast-09d80a11e.1.azurestaticapps.net"  
             )
             .AllowAnyMethod()
             .AllowAnyHeader();
@@ -33,17 +34,6 @@ builder.Services.AddSwaggerGen();
 builder.Services.AddDbContext<ApplicationDbContext>(options =>
     options.UseSqlServer(builder.Configuration.GetConnectionString("DefaultConnection")));
 
-// Add CORS for Angular frontend
-builder.Services.AddCors(options =>
-{
-    options.AddPolicy("AllowAngular",
-        policy =>
-        {
-            policy.WithOrigins("http://localhost:4200", "https://localhost:4200")
-                  .AllowAnyMethod()
-                  .AllowAnyHeader();
-        });
-});
 
 var app = builder.Build();
 
@@ -59,7 +49,7 @@ if (!app.Environment.IsDevelopment())
 {
     app.UseHttpsRedirection();
 }
-app.UseCors("AllowAngular");
+app.UseCors();
 app.UseAuthorization();
 app.UseStaticFiles(); // Enable serving static files from wwwroot
 app.MapControllers();
