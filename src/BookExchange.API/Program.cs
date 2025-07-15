@@ -8,6 +8,19 @@ builder.Services.ConfigureHttpJsonOptions(options =>
     options.SerializerOptions.ReferenceHandler = ReferenceHandler.IgnoreCycles;
 });
 // Add services to the container.
+builder.Services.AddCors(options =>
+{
+    options.AddDefaultPolicy(builder =>
+    {
+        builder
+            .WithOrigins(
+                "http://localhost:4200",  // Keep for local development
+                "https://wonderful-coast-09d80a11e.1.azurestaticapps.net"  // Add your live frontend
+            )
+            .AllowAnyMethod()
+            .AllowAnyHeader();
+    });
+});
 builder.Services.AddControllers()
     .AddJsonOptions(options =>
     {
