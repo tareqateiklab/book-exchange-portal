@@ -13,6 +13,7 @@ import { MatSelectModule } from '@angular/material/select';
 import { MatIconModule } from '@angular/material/icon';
 
 import { BookService, Book, Category } from '../../services/book';
+import { environment } from '../../../environments/environment';
 
 @Component({
   selector: 'app-book-list',
@@ -33,6 +34,7 @@ import { BookService, Book, Category } from '../../services/book';
   styleUrl: './book-list.css'
 })
 export class BookList implements OnInit {
+  public environment = environment;
   books: Book[] = [];
   categories: Category[] = [];
   loading = false;

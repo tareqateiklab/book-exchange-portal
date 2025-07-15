@@ -87,7 +87,7 @@
       
       <mat-card-content>
         <div class="book-image" *ngIf="book.imageFileName">
-          <img [src]="'http://localhost:5175/images/' + book.imageFileName" alt="Book Cover" style="max-width: 100px; max-height: 140px; border-radius: 6px; margin-bottom: 8px;" />
+          <img [src]="environment.apiUrl + '/images/' + book.imageFileName" alt="Book Cover" style="max-width: 100px; max-height: 140px; border-radius: 6px; margin-bottom: 8px;" />
         </div>
         <div class="book-details">
           <p><strong>ISBN:</strong> {{ book.isbn }}</p>

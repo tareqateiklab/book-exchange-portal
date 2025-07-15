@@ -9,6 +9,7 @@ import { MatProgressSpinnerModule } from '@angular/material/progress-spinner';
 import { MatSnackBarModule, MatSnackBar } from '@angular/material/snack-bar';
 import { MatDividerModule } from '@angular/material/divider';
 import { BookService } from '../../services/book';
+import { environment } from '../../../environments/environment';
 
 @Component({
   selector: 'app-book-details',
@@ -28,6 +29,7 @@ import { BookService } from '../../services/book';
   styleUrls: ['./book-details.css']
 })
 export class BookDetails implements OnInit {
+  public environment = environment;
   book: any = null;
   loading = true;
   error: string | null = null;

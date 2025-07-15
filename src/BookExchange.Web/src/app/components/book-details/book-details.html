@@ -93,7 +93,7 @@
             
             <!-- Book Image -->
             <div class="book-image" *ngIf="book.imageFileName">
-              <img [src]="'http://localhost:5175/images/' + book.imageFileName" alt="Book Cover" style="max-width: 200px; max-height: 280px; border-radius: 8px; margin-bottom: 16px;" />
+              <img [src]="environment.apiUrl + '/images/' + book.imageFileName" alt="Book Cover" style="max-width: 200px; max-height: 280px; border-radius: 8px; margin-bottom: 16px;" />
             </div>
             <!-- Price Section -->
             <mat-card class="price-card">
