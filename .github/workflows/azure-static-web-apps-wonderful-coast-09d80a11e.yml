@@ -25,7 +25,7 @@ jobs:
           repo_token: ${{ secrets.GITHUB_TOKEN }}
           action: "upload"
           app_location: "/src/BookExchange.Web"
-          app_build_command: "npm install && npm run build"
+          app_build_command: "npm install && npm run build -- --configuration production"
           output_location: "dist/BookExchange.Web/browser"
         env:
           NODE_VERSION: "20"
