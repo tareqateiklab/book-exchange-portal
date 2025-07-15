@@ -24,12 +24,20 @@
           </mat-error>
         </mat-form-field>
 
-        <!-- Author -->
+        <!-- Author First Name -->
         <mat-form-field appearance="outline" class="full-width">
-          <mat-label>Author</mat-label>
-          <input matInput formControlName="authorName" placeholder="Enter author name">
-          <mat-error *ngIf="bookForm.get('authorName')?.invalid && bookForm.get('authorName')?.touched">
-            {{ getErrorMessage('authorName') }}
+          <mat-label>Author First Name</mat-label>
+          <input matInput formControlName="authorFirstName" placeholder="Enter author's first name">
+          <mat-error *ngIf="bookForm.get('authorFirstName')?.invalid && bookForm.get('authorFirstName')?.touched">
+            {{ getErrorMessage('authorFirstName') }}
+          </mat-error>
+        </mat-form-field>
+        <!-- Author Last Name -->
+        <mat-form-field appearance="outline" class="full-width">
+          <mat-label>Author Last Name</mat-label>
+          <input matInput formControlName="authorLastName" placeholder="Enter author's last name">
+          <mat-error *ngIf="bookForm.get('authorLastName')?.invalid && bookForm.get('authorLastName')?.touched">
+            {{ getErrorMessage('authorLastName') }}
           </mat-error>
         </mat-form-field>
 

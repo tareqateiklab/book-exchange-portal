@@ -22,7 +22,8 @@ export interface Book {
 
 export interface User {
   id: string;
-  name: string;
+  firstName: string;
+  lastName: string;
   email: string;
   phone: string;
   university: string;
@@ -36,7 +37,8 @@ export interface Category {
 
 export interface Author {
   id: string;
-  name: string;
+  firstName: string;
+  lastName: string;
   bio: string;
 }
 

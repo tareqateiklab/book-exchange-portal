@@ -15,9 +15,9 @@ erDiagram
     Users {
         uniqueidentifier Id PK
         nvarchar Email UK "NOT NULL"
-        nvarchar Name "NOT NULL"
+        nvarchar FirstName "NOT NULL"
+        nvarchar LastName "NOT NULL"
         nvarchar Phone "NULL"
-        nvarchar Location "NULL"
         datetime2 DateJoined "NOT NULL"
     }
     
@@ -32,9 +32,10 @@ erDiagram
         nvarchar Title "NOT NULL"
         nvarchar ISBN "NOT NULL"
         nvarchar Condition "NOT NULL"
+        nvarchar ImageFileName 
         decimal Price "NOT NULL"
         nvarchar Description "NULL"
-        datetime2 DateAdded "NOT NULL"
+        datetime2 DatePosted "NOT NULL"
         uniqueidentifier SellerId FK
         int CategoryId FK
     }
@@ -65,10 +66,10 @@ erDiagram
 | Column Name | Data Type | Constraints | Description |
 |-------------|-----------|-------------|-------------|
 | Id | uniqueidentifier | PRIMARY KEY, NOT NULL | Unique user identifier (GUID) |
-| Name | nvarchar(100) | NOT NULL | User's full name |
+| FirstName | nvarchar(100) | NOT NULL | User's first name |
+| LastName | nvarchar(100) | NOT NULL | User's last name |
 | Email | nvarchar(255) | NOT NULL, UNIQUE | User's email address |
 | Phone | nvarchar(20) | NULL | Contact phone number |
-| Location | nvarchar(100) | NULL | Campus location or dorm |
 | DateJoined | datetime2 | NOT NULL, DEFAULT(GETDATE()) | Registration timestamp |
 
 **Indexes:**
@@ -101,6 +102,7 @@ erDiagram
 | Condition | nvarchar(20) | NOT NULL | Book condition (New, Like New, etc.) |
 | Price | decimal(10,2) | NOT NULL | Selling price in USD |
 | Description | nvarchar(1000) | NULL | Additional details about the book |
+| ImageFileName | nvarchar(1000) | NULL | Image file name of the book |
 | DateAdded | datetime2 | NOT NULL, DEFAULT(GETDATE()) | Listing creation timestamp |
 | SellerId | uniqueidentifier | FOREIGN KEY, NOT NULL | Reference to Users.Id |
 | CategoryId | int | FOREIGN KEY, NOT NULL | Reference to Categories.Id |
@@ -164,95 +166,3 @@ erDiagram
    - Junction Table: `BookAuthors`
    - Constraints: Cascade delete when book or author is removed
 
-## Data Integrity Rules
-
-### Primary Key Constraints
-- All entities use appropriate primary keys (GUID for main entities, INT for categories)
-- No NULL values allowed in primary key columns
-
-### Foreign Key Constraints
-- All foreign key relationships enforce referential integrity
-- Prevent orphaned records through proper cascade rules
-
-### Check Constraints
-- `Books.Price` must be greater than 0
-- `Books.Condition` must be one of: 'New', 'Like New', 'Very Good', 'Good', 'Acceptable'
-- Email format validation on `Users.Email`
-
-### Unique Constraints
-- `Users.Email` must be unique across all users
-- `Categories.Name` must be unique
-- No duplicate ISBN entries per seller (business rule)
-
-## Indexing Strategy
-
-### Performance Indexes
-- **Search Optimization:**
-  - `Books.Title` (for title searches)
-  - `Books.ISBN` (for exact ISBN lookups)
-  - `Authors.LastName, FirstName` (for author searches)
-
-- **Foreign Key Optimization:**
-  - `Books.SellerId` (join with Users)
-  - `Books.CategoryId` (join with Categories)
-  - `BookAuthors.BookId` and `BookAuthors.AuthorId` (junction table joins)
-
-### Query Optimization
-- Covering indexes for common search patterns
-- Composite indexes for multi-column WHERE clauses
-- Statistics maintenance for query plan optimization
-
-## Sample Data Structure
-
-### Users Example
-```sql
-INSERT INTO Users (Id, Name, Email, Phone, Location)
-VALUES 
-('550e8400-e29b-41d4-a716-446655440001', 'John Smith', 'john.smith@iit.edu', '312-555-0123', 'Hermann Hall'),
-('550e8400-e29b-41d4-a716-446655440002', 'Sarah Johnson', 'sarah.j@iit.edu', '312-555-0124', 'McCormick Student Village');
-```
-
-### Categories Example
-```sql
-INSERT INTO Categories (Name, Description)
-VALUES 
-('Computer Science', 'Programming, algorithms, software engineering'),
-('Mathematics', 'Calculus, statistics, discrete mathematics'),
-('Business', 'Marketing, finance, management courses');
-```
-
-### Books Example
-```sql
-INSERT INTO Books (Id, Title, ISBN, Condition, Price, SellerId, CategoryId)
-VALUES 
-('660e8400-e29b-41d4-a716-446655440001', 'Introduction to Algorithms', '9780262033848', 'Very Good', 89.99, '550e8400-e29b-41d4-a716-446655440001', 1);
-```
-
-## Database Migration History
-
-### Initial Migration (Day 2)
-- Created all core entities
-- Established foreign key relationships
-- Added basic constraints and indexes
-
-### Search Enhancement (Day 6)
-- Added indexes for search performance
-- Optimized query execution plans
-
-## Performance Considerations
-
-### Query Optimization
-- Use of INCLUDE columns in indexes for covering queries
-- Proper JOIN strategies with foreign key indexes
-- Parameterized queries to prevent SQL injection
-
-### Scalability Planning
-- Partition strategies for large book catalogs
-- Archive strategies for old listings
-- Read replicas for search-heavy workloads
-
----
-
-**Schema Version:** 1.0  
-**Last Updated:** Day 6  
-**Migration Status:** Up to date

@@ -94,7 +94,7 @@
           <p><strong>Category:</strong> {{ book.category?.name || 'Uncategorized' }}</p>
           <p><strong>Condition:</strong> {{ book.condition }}</p>
           <p class="price"><strong>Price:</strong> {{ formatPrice(book.price) }}</p>
-          <p><strong>Seller:</strong> {{ book.seller?.name || 'Unknown' }}</p>
+          <p><strong>Seller:</strong> {{ book.seller ? (book.seller.firstName + ' ' + book.seller.lastName) : 'Unknown' }}</p>
         </div>
       </mat-card-content>
       

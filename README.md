@@ -60,11 +60,10 @@ The application interface was designed with user-centered principles, focusing o
 - **User Journey Mapping:** Complete workflow from browsing to purchasing and selling
 - **Wireframe Development:** Professional mockups created in Figma
 - **Design System:** Angular Material for consistent, accessible UI components
-- **Responsive Design:** Mobile-first approach ensuring usability across all device types
 
 ### Key UX Features
 - **Intuitive Navigation:** Clear, consistent header navigation across all pages
-- **Efficient Search:** Quick book discovery with title, author, and category filtering
+- **Efficient Search:** Quick book discovery with title and category filtering
 - **Streamlined Listing:** Simple, form-based book submission process
 - **Clear Information Hierarchy:** Easy-to-scan book cards with essential details
 - **Direct Communication:** One-click seller contact functionality
@@ -76,11 +75,9 @@ The application interface was designed with user-centered principles, focusing o
 The Book Exchange Portal provides a complete solution for textbook trading:
 
 - **Book Management:** Full CRUD operations for listing, editing, and managing book sales
-- **Smart Search:** Search books by title, author, ISBN, or filter by academic category  
+- **Smart Search:** Search books by title or filter by academic category  
 - **User Profiles:** Seller profiles with contact information for easy communication
 - **Responsive Design:** Works seamlessly on desktop, tablet, and mobile devices
-- **Real-time Data:** Live database integration with instant updates
-- **Professional UI:** Clean, intuitive interface built with Angular Material
 
 ## 📁 Project Structure
 
@@ -127,7 +124,6 @@ ng serve
 ```
 
 ### Environment Configuration
-- Update `src/BookExchange.Web/src/environments/environment.ts` for local API URL
 - Configure connection string in `src/BookExchange.API/appsettings.Development.json`
 
 ## 📋 Documentation
@@ -175,7 +171,7 @@ This project was developed progressively throughout the course, building from ba
 ### ✅ Multiple Frameworks
 - Frontend: Angular 17+ with Material UI
 - Backend: ASP.NET Core 8
-- Database: Entity Framework Core 8
+- Database: SQL Server accessed using Entity Framework Core 8
 
 ### ✅ Database Integration
 - Multiple related tables (Books, Authors, Categories, Users)
@@ -190,7 +186,7 @@ This project was developed progressively throughout the course, building from ba
 
 ### ✅ Live Deployment
 - Publicly accessible URLs
-- Automated CI/CD pipeline
+- Automated CI/CD pipeline through Github Actions
 - Cloud hosting on Azure
 
 ### ✅ Source Control
@@ -205,6 +201,3 @@ This project was developed progressively throughout the course, building from ba
 **Instructor:** Raj Krishnan  
 **Institution:** Illinois Institute of Technology
 
-## 📄 Academic Integrity
-
-This project represents original work completed for ITMD 504. All code, design decisions, and implementation approaches were developed independently as part of the course curriculum. External resources and documentation were consulted for learning purposes, but all application logic and features were implemented from scratch.

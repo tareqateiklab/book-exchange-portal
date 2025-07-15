@@ -89,6 +89,7 @@ namespace BookExchange.API.Controllers
                 ISBN = dto.ISBN,
                 CategoryId = dto.CategoryId,
                 SellerId = dto.SellerId,
+                Condition = dto.Condition,
                 ImageFileName = imageFileName,
                 Authors = dto.Authors?.Select(a => new Author { FirstName = a.FirstName, LastName = a.LastName }).ToList() ?? new List<Author>()
             };

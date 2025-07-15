@@ -120,7 +120,8 @@ export class BookList implements OnInit {
 
   getAuthorName(book: Book): string {
     if (book.authors && book.authors.length > 0) {
-      return `${book.authors[0].name}`;
+      const author = book.authors[0];
+      return `${author.firstName} ${author.lastName}`.trim();
     }
     return 'Unknown Author';
   }

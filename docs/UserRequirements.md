@@ -3,7 +3,6 @@
 ## Project Overview
 
 **Project Name:** Book Exchange Portal  
-**Duration:** 3 weeks  
 **Technology Stack:** Angular 17+ Frontend, ASP.NET Core 8 Web API, Azure SQL Database  
 **Deployment:** Azure Static Web Apps + Azure App Service  
 
@@ -180,7 +179,6 @@ The Book Exchange Portal is a peer-to-peer marketplace that enables students to 
 
 ### Technical Constraints
 - **Budget:** Limited to free/basic Azure tiers
-- **Timeline:** 3-week development period
 - **Team Size:** Single developer implementation
 - **Technology Stack:** Must use Angular + ASP.NET Core + Azure
 
@@ -213,5 +211,4 @@ The Book Exchange Portal is a peer-to-peer marketplace that enables students to 
 ---
 
 **Document Version:** 1.1  
-**Last Updated:** Day 7 of Development  
 **Status:** User Stories Added - Requirements Complete

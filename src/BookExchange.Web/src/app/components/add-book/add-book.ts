@@ -59,7 +59,8 @@ export class AddBook implements OnInit {
       isbn: [''],
       categoryId: ['', Validators.required],
       userId: ['', Validators.required],
-      authorName: ['', Validators.required] // Simplified - single author for now
+      authorFirstName: ['', Validators.required],
+      authorLastName: ['', Validators.required]
     });
   }
 
@@ -112,12 +113,9 @@ export class AddBook implements OnInit {
       if (this.imageFile) {
         formData.append('image', this.imageFile);
       }
-      // Author (as JSON string)
-      const authorParts = formValue.authorName.trim().split(' ');
-      const firstName = authorParts[0] || '';
-      const lastName = authorParts.slice(1).join(' ') || '';
-      const authors = [{ firstName, lastName }];
-      formData.append('authors', JSON.stringify(authors));
+      // Author (as individual fields for ASP.NET Core model binding)
+      formData.append('Authors[0].FirstName', formValue.authorFirstName);
+      formData.append('Authors[0].LastName', formValue.authorLastName);
 
       this.bookService.createBookWithImage(formData).subscribe({
         next: (response) => {

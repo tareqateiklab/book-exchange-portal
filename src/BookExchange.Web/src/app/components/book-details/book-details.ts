@@ -127,7 +127,7 @@ editBook(): void {
     if (!authors || authors.length === 0) {
       return 'Author not specified';
     }
-    return authors.map(a => a.name).join(', ');
+    return authors.map(a => `${a.firstName} ${a.lastName}`.trim()).join(', ');
   }
 
   formatDate(dateString: string): string {

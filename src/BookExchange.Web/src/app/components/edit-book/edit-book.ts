@@ -60,7 +60,8 @@ export class EditBook implements OnInit {
       isbn: [''],
       categoryId: ['', Validators.required],
       userId: ['', Validators.required],
-      authorName: ['', Validators.required]
+      authorFirstName: ['', Validators.required],
+      authorLastName: ['', Validators.required]
     });
   }
 
@@ -95,7 +96,8 @@ export class EditBook implements OnInit {
           isbn: book.isbn || '',
           categoryId: book.categoryId,
           userId: book.sellerId || '',
-          authorName: book.authors && book.authors.length > 0 ? book.authors[0].name : ''
+          authorFirstName: book.authors && book.authors.length > 0 ? book.authors[0].firstName : '',
+          authorLastName: book.authors && book.authors.length > 0 ? book.authors[0].lastName : ''
         });
       }
       
@@ -113,11 +115,6 @@ export class EditBook implements OnInit {
       this.submitting = true;
       const formValue = this.bookForm.value;
 
-      // Split author name into firstName and lastName
-      const authorParts = formValue.authorName.trim().split(' ');
-      const firstName = authorParts[0] || '';
-      const lastName = authorParts.slice(1).join(' ') || '';
-
       const bookData = {
         id: this.bookId, // Include the book ID for PUT request
         title: formValue.title,
@@ -130,8 +127,8 @@ export class EditBook implements OnInit {
         authors: [
           {
             id: this.book?.authors && this.book.authors.length > 0 ? this.book.authors[0].id : '',
-            firstName: firstName,
-            lastName: lastName,
+            firstName: formValue.authorFirstName,
+            lastName: formValue.authorLastName,
             bio: this.book?.authors && this.book.authors.length > 0 ? this.book.authors[0].bio : ''
           }
         ]
